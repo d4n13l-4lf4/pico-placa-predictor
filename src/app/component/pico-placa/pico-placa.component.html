@@ -6,7 +6,7 @@
           Pico y Placa Predictor
         </div>
         <div class="card-body">
-          <form [formGroup]="predictForm" >
+          <form [formGroup]="predictForm">
             <div class="row">
               <div class="form-group col-sm-12">
                 <label for="licensePlate">License Plate</label>
@@ -78,17 +78,16 @@
           <div *ngIf="forbiddenLicense !== undefined && !forbiddenLicense" class="alert alert-success text-center">
             You should be on the road at that time!
           </div>
+          <div *ngIf="loading" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
         <div class="card-footer text-center">
           <button class="btn btn-primary"
-                  [disabled]="predictForm.invalid"
+                  [disabled]="predictForm.invalid || loading"
                   (click)="predictPicoPlaca()"
-                  *ngIf="forbiddenLicense ===  undefined">Predict
+                  >Predict
           </button>
-          <button class="btn btn-info"
-                  type="button"
-                  *ngIf="forbiddenLicense !== undefined"
-                  (click)="resetForm()">Reset form</button>
         </div>
       </div>
     </div>
