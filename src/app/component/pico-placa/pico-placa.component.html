@@ -1,0 +1,82 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center full-height">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <div class="card">
+        <div class="card-header font-weight-bold text-center">
+          Pico y Placa Predictor
+        </div>
+        <div class="card-body">
+          <form [formGroup]="predictForm" >
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <label for="licensePlate">License Plate</label>
+                <input type="text"
+                       id="licensePlate"
+                       name="licensePlate"
+                       [ngClass]="{'form-control': true, 'is-invalid': licensePlate.invalid && (licensePlate.touched || licensePlate.dirty), 'is-valid': licensePlate.valid && (licensePlate.touched || licensePlate.dirty)}"
+                       placeholder="ABC-1242"
+                       formControlName="licensePlate"
+                       autocomplete="off"
+                />
+                <div *ngIf="licensePlate.invalid && (licensePlate.dirty || licensePlate.touched)">
+                  <div class="invalid-feedback" *ngIf="licensePlate.errors.required">
+                    Enter a license plate
+                  </div>
+                  <div *ngIf="!licensePlate.errors.required && licensePlate.errors.invalidLicense">
+                    Enter a valid license plate
+                  </div>
+                </div>
+                <div *ngIf="licensePlate.valid && (licensePlate.dirty || licensePlate.touched)">
+                  Valid license plate
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-12">
+                <label for="date" class="label">Date (yyyy-mm-dd)</label>
+                <input type="text"
+                       id="date"
+                       name="date"
+                       class="form-control"
+                       placeholder="2020-01-01"
+                       formControlName="date"
+                       autocomplete="off"
+                       [ngClass]="{'form-control': true, 'is-valid': date.valid && (date.touched || date.dirty), 'is-invalid': date.invalid && (date.touched || date.dirty)}"
+                />
+                <div *ngIf="date.invalid && (date.dirty || date.touched)">
+                  <div *ngIf="date.errors.required">Enter a date</div>
+                  <div *ngIf="!date.errors.required && date.errors.invalidDate">Enter a valid date in format yyyy-mm-dd</div>
+                </div>
+                <div *ngIf="date.valid && (date.dirty || date.touched)">
+                  <div>Valid date</div>
+                </div>
+              </div>
+              <div class="form-group col-sm-6 col-md-12">
+                <label for="time">Time (HH:mm)</label>
+                <input type="text"
+                       id="time"
+                       name="time"
+                       class="form-control"
+                       formControlName="time"
+                       autocomplete="off"
+                       placeholder="11:00"
+                       [ngClass]="{'form-control': true, 'is-valid': time.valid && (time.touched || time.dirty), 'is-invalid': time.invalid && (time.touched || time.dirty)}"
+                />
+                <div *ngIf="time.invalid && (time.dirty || time.touched)">
+                  <div *ngIf="time.errors.required">Enter a time</div>
+                  <div *ngIf="!time.errors.required && time.errors.invalidTime">Enter a valid time in format HH:mm</div>
+                </div>
+                <div *ngIf="time.valid && (time.dirty || time.touched)">
+                  <div>Valid time</div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-center">
+          <button class="btn btn-primary" type="button" [disabled]="predictForm.invalid" (click)="predictPicoPlaca()">Predict</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
