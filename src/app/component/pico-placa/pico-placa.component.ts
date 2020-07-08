@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ILicensePlatePredict} from "../../model/ILicensePlatePredict";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomValidator} from "../../validator/custom-validators";
+import {PredictorService} from "../../service/predictor.service";
 
 @Component({
   selector: 'app-pico-placa',
@@ -14,7 +15,8 @@ export class PicoPlacaComponent implements OnInit {
   forbiddenLicense: boolean;
   predictForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder,
+              private _predictService: PredictorService) {
     this.licensePlateInput = {
       licensePlate: '',
       date: '',
@@ -45,10 +47,29 @@ export class PicoPlacaComponent implements OnInit {
   ngOnInit() {
   }
 
-
   predictPicoPlaca() {
-    console.log('Forbidden');
     this.forbiddenLicense = true;
+
+    let valid = this.predictForm.valid;
+
+    if (valid) {
+
+      let licenseInput: ILicensePlatePredict = {
+        licensePlate: this.predictForm.get("licensePlate").value,
+        date: this.predictForm.get("date").value,
+        time: this.predictForm.get("time").value,
+      };
+
+      console.log(licenseInput);
+
+      const promise = this._predictService.predict(licenseInput)
+      promise.then(fb => this.forbiddenLicense = fb);
+    }
+  }
+
+  resetForm() {
+    this.predictForm.reset();
+    this.forbiddenLicense = undefined;
   }
 
   get licensePlate() { return this.predictForm.get('licensePlate'); }
