@@ -1,11 +1,11 @@
 import * as moment from 'moment';
-import {Weekday} from "../enum/Weekday";
-import {DATE_FORMAT} from "./global";
+import {Weekday} from '../enum/Weekday';
+import {DATE_FORMAT} from './global';
 
 
 function getWeekday(date: string): Weekday {
   try {
-    let isoWeekday: number = moment(date, DATE_FORMAT, true).isoWeekday();
+    const isoWeekday: number = moment(date, DATE_FORMAT, true).isoWeekday();
     switch(isoWeekday) {
       case Weekday.MONDAY:
         return Weekday.MONDAY;
@@ -26,5 +26,5 @@ function getWeekday(date: string): Weekday {
 }
 
 export const Utils = {
-  getWeekday: getWeekday
-}
+  getWeekday
+};
