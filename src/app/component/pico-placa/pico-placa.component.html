@@ -19,14 +19,14 @@
                        autocomplete="off"
                 />
                 <div *ngIf="licensePlate.invalid && (licensePlate.dirty || licensePlate.touched)">
-                  <div class="invalid-feedback" *ngIf="licensePlate.errors.required">
+                  <div class="invalid-message" *ngIf="licensePlate.errors.required">
                     Enter a license plate
                   </div>
-                  <div *ngIf="!licensePlate.errors.required && licensePlate.errors.invalidLicense">
+                  <div class="invalid-message" *ngIf="!licensePlate.errors.required && licensePlate.errors.invalidLicense">
                     Enter a valid license plate
                   </div>
                 </div>
-                <div *ngIf="licensePlate.valid && (licensePlate.dirty || licensePlate.touched)">
+                <div class="valid-message" *ngIf="licensePlate.valid && (licensePlate.dirty || licensePlate.touched)">
                   Valid license plate
                 </div>
               </div>
@@ -44,11 +44,11 @@
                        [ngClass]="{'form-control': true, 'is-valid': date.valid && (date.touched || date.dirty), 'is-invalid': date.invalid && (date.touched || date.dirty)}"
                 />
                 <div *ngIf="date.invalid && (date.dirty || date.touched)">
-                  <div *ngIf="date.errors.required">Enter a date</div>
-                  <div *ngIf="!date.errors.required && date.errors.invalidDate">Enter a valid date in format yyyy-mm-dd</div>
+                  <div class="invalid-message" *ngIf="date.errors.required">Enter a date</div>
+                  <div class="invalid-message" *ngIf="!date.errors.required && date.errors.invalidDate">Enter a valid date in format yyyy-mm-dd</div>
                 </div>
-                <div *ngIf="date.valid && (date.dirty || date.touched)">
-                  <div>Valid date</div>
+                <div class="valid-message" *ngIf="date.valid && (date.dirty || date.touched)">
+                  Valid date
                 </div>
               </div>
               <div class="form-group col-sm-6 col-md-12">
@@ -63,18 +63,32 @@
                        [ngClass]="{'form-control': true, 'is-valid': time.valid && (time.touched || time.dirty), 'is-invalid': time.invalid && (time.touched || time.dirty)}"
                 />
                 <div *ngIf="time.invalid && (time.dirty || time.touched)">
-                  <div *ngIf="time.errors.required">Enter a time</div>
-                  <div *ngIf="!time.errors.required && time.errors.invalidTime">Enter a valid time in format HH:mm</div>
+                  <div class="invalid-message" *ngIf="time.errors.required">Enter a time</div>
+                  <div class="invalid-message" *ngIf="!time.errors.required && time.errors.invalidTime">Enter a valid time in format HH:mm</div>
                 </div>
-                <div *ngIf="time.valid && (time.dirty || time.touched)">
+                <div class="valid-message" *ngIf="time.valid && (time.dirty || time.touched)">
                   <div>Valid time</div>
                 </div>
               </div>
             </div>
           </form>
+          <div *ngIf="forbiddenLicense !== undefined && forbiddenLicense" class="alert alert-danger text-center">
+            You should leave your car at home at that time!
+          </div>
+          <div *ngIf="forbiddenLicense !== undefined && !forbiddenLicense" class="alert alert-success text-center">
+            You should be on the road at that time!
+          </div>
         </div>
         <div class="card-footer text-center">
-          <button class="btn btn-primary" type="button" [disabled]="predictForm.invalid" (click)="predictPicoPlaca()">Predict</button>
+          <button class="btn btn-primary"
+                  [disabled]="predictForm.invalid"
+                  (click)="predictPicoPlaca()"
+                  *ngIf="forbiddenLicense ===  undefined">Predict
+          </button>
+          <button class="btn btn-info"
+                  type="button"
+                  *ngIf="forbiddenLicense !== undefined"
+                  (click)="resetForm()">Reset form</button>
         </div>
       </div>
     </div>
