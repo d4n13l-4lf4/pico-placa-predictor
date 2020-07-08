@@ -1,7 +1,7 @@
-.invalid-feedback {
+.invalid-message {
   color: red;
 }
 
-.valid-feedback {
+.valid-message {
   color: green;
 }
