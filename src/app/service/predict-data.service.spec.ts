@@ -19,9 +19,8 @@ describe('PredictDataService', () => {
           expect(data).toBeTruthy();
           done();
         },
-        _ => {
-          expect(false).toBeTruthy();
-          done();
+        err => {
+          done.fail(err);
         }
       )
   });

@@ -31,7 +31,7 @@ describe('PredictorService', () => {
     service
       .predict(forbiddenLicenseInput)
       .then(bool => { expect(bool).toBeTruthy(); done(); })
-      .catch(_ => { expect(true).toBeFalsy(); done(); });
+      .catch(err => { done.fail(err); });
   });
 
   it ('should return false with permitted input', (done: DoneFn) => {
@@ -39,6 +39,6 @@ describe('PredictorService', () => {
     service
       .predict(permittedLicenseInput)
       .then(bool => { expect(bool).toBeFalsy(); done(); })
-      .catch(_ => { expect(true).toBeFalsy(); done(); });
+      .catch(err => { done.fail(err); });
   })
 });
