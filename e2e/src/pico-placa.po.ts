@@ -27,4 +27,12 @@ export class PicoPlacaPage {
   getCardTitleText() {
     return element(by.css('.card-header')).getText() as Promise<string>;
   }
+
+  getPermittedMessage() {
+    return element(by.css('.alert-success')).getText() as Promise<string>;
+  }
+
+  getForbiddenMessage() {
+    return element(by.css('.alert-danger')).getText() as Promise<string>;
+  }
 }
