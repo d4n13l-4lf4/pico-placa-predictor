@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {DATE_FORMAT, LICENSE_PLATE_REGEX, TIME_REGEX} from "./global";
+import {DATE_FORMAT, LICENSE_PLATE_REGEX, TIME_FORMAT, TIME_REGEX} from './global';
 
 export function validateLicensePlate(licensePlate: string): boolean {
     if (typeof licensePlate !== 'string') {
@@ -15,4 +15,17 @@ export function validateDate(date: string): boolean {
 
 export function validateTime(time: string): boolean {
   return TIME_REGEX.test(time);
+}
+
+export function timeBetween(time: string,
+                            inclusiveStartTime: string,
+                            inclusiveEndTime: string): {error?: string} | boolean {
+  try {
+    const timeToTest = moment(time, TIME_FORMAT, true);
+    const startTime = moment(inclusiveStartTime, TIME_FORMAT, true);
+    const endTime = moment(inclusiveEndTime, TIME_FORMAT, true);
+    return timeToTest.isSameOrAfter(startTime) && timeToTest.isSameOrBefore(endTime);
+  } catch (e) {
+    return {error: e};
+  }
 }
