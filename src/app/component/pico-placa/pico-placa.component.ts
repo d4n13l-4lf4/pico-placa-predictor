@@ -55,6 +55,7 @@ export class PicoPlacaComponent implements OnInit {
   resetForm() {
     this.predictForm.reset();
     this.forbiddenLicense = undefined;
+    this.error = false;
   }
 
   createPredictForm() {
