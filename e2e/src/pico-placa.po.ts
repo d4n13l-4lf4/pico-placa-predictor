@@ -24,6 +24,10 @@ export class PicoPlacaPage {
     return element(by.id('predictButton'));
   }
 
+  getResetFormButton() {
+    return element(by.id('resetButton'));
+  }
+
   getCardTitleText() {
     return element(by.css('.card-header')).getText() as Promise<string>;
   }
