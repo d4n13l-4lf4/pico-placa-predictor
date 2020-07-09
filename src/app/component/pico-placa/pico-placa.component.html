@@ -9,7 +9,9 @@
           <form [formGroup]="predictForm">
             <div class="row">
               <div class="col-sm-12 text-center">
-                <button class="btn btn-light btn-sm text-center border-dark" (click)="resetForm()">
+                <button id="resetButton"
+                        class="btn btn-light btn-sm text-center border-dark"
+                        (click)="resetForm()">
                   <img src="/assets/icon/bootstrap-reboot.svg" alt="" width="16" height="16" title="Bootstrap">
                   Reset form
                 </button>
