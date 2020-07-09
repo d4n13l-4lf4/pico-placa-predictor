@@ -83,6 +83,31 @@ describe('Pico Placa Test Suite', () => {
     expect(message).toBe(expectedMessage);
   });
 
+  it ('should clean every input when reset button is pressed', () => {
+    const licensePlateInput = page.getLicensePlateInput();
+    const dateInput = page.getDateInput();
+    const timeInput = page.getTimeInput();
+    const predictButton = page.getPredictButton();
+
+    licensePlateInput.sendKeys('ABC-1235');
+    dateInput.sendKeys('2020-07-08');
+    timeInput.sendKeys('07:30');
+    predictButton.click();
+
+    const resetButton = page.getResetFormButton();
+    resetButton.click();
+
+    const message = page.getForbiddenMessage();
+    Promise.all([
+      expect(message).toBeFalsy(),
+      expect(licensePlateInput.getText()).toBe(''),
+      expect(dateInput.getText()).toBe(''),
+      expect(timeInput.getText()).toBe(''),
+      expect(predictButton.getAttribute('disabled')).toBe('true')
+    ]);
+
+  });
+
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
