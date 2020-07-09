@@ -26,14 +26,11 @@
                     Enter a valid license plate
                   </div>
                 </div>
-                <div class="valid-message" *ngIf="licensePlate.valid && (licensePlate.dirty || licensePlate.touched)">
-                  Valid license plate
-                </div>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-12">
-                <label for="date" class="label">Date (yyyy-mm-dd)</label>
+                <label for="date" class="label">Date (YYYY-MM-DD)</label>
                 <input type="text"
                        id="date"
                        name="date"
@@ -46,9 +43,6 @@
                 <div *ngIf="date.invalid && (date.dirty || date.touched)">
                   <div class="invalid-message" *ngIf="date.errors.required">Enter a date</div>
                   <div class="invalid-message" *ngIf="!date.errors.required && date.errors.invalidDate">Enter a valid date in format yyyy-mm-dd</div>
-                </div>
-                <div class="valid-message" *ngIf="date.valid && (date.dirty || date.touched)">
-                  Valid date
                 </div>
               </div>
               <div class="form-group col-sm-6 col-md-12">
@@ -66,20 +60,20 @@
                   <div class="invalid-message" *ngIf="time.errors.required">Enter a time</div>
                   <div class="invalid-message" *ngIf="!time.errors.required && time.errors.invalidTime">Enter a valid time in format HH:mm</div>
                 </div>
-                <div class="valid-message" *ngIf="time.valid && (time.dirty || time.touched)">
-                  <div>Valid time</div>
-                </div>
               </div>
             </div>
           </form>
           <div *ngIf="forbiddenLicense !== undefined && forbiddenLicense" class="alert alert-danger text-center">
-            You should leave your car at home at that time!
+            You shouldn't drive your car at that time!
           </div>
           <div *ngIf="forbiddenLicense !== undefined && !forbiddenLicense" class="alert alert-success text-center">
-            You should be on the road at that time!
+            You are perfectly fine driving your car at that time!
           </div>
-          <div *ngIf="loading" class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+          <div class="text-center" *ngIf="loading">
+            <p class="text-center">Checking...</p>
+            <div *ngIf="loading" class="spinner-border text-info" role="status">
+              <span class="sr-only">Checking...</span>
+            </div>
           </div>
         </div>
         <div class="card-footer text-center">
