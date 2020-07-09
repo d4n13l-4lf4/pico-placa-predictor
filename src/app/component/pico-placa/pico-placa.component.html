@@ -67,7 +67,7 @@
             You shouldn't drive your car at that time!
           </div>
           <div *ngIf="forbiddenLicense !== undefined && !forbiddenLicense" class="alert alert-success text-center">
-            You are perfectly fine driving your car at that time!
+            You are fine driving your car at that time!
           </div>
           <div class="text-center" *ngIf="loading">
             <p class="text-center">Checking...</p>
@@ -77,7 +77,8 @@
           </div>
         </div>
         <div class="card-footer text-center">
-          <button class="btn btn-primary"
+          <button id="predictButton"
+                  class="btn btn-primary"
                   [disabled]="predictForm.invalid || loading"
                   (click)="predictPicoPlaca()"
                   >Predict
