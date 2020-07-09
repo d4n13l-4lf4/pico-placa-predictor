@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {WeekdayLicense} from '../model/WeekdayLicense';
 import {Weekday} from '../enum/Weekday';
 import {PredictData} from '../model/PredictData';
 
@@ -9,7 +8,7 @@ import {PredictData} from '../model/PredictData';
 })
 export class PredictDataService {
 
-  MILLISECONDS_DELAY = 3000;
+  MILLISECONDS_DELAY = 1500;
   PREDICT_DATA: PredictData;
 
   constructor() {
