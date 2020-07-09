@@ -1,23 +1,23 @@
 import * as moment from 'moment';
 import {DATE_FORMAT, LICENSE_PLATE_REGEX, TIME_FORMAT, TIME_REGEX} from './global';
 
-export function validateLicensePlate(licensePlate: string): boolean {
+function validateLicensePlate(licensePlate: string): boolean {
     if (typeof licensePlate !== 'string') {
       return false;
     }
     return LICENSE_PLATE_REGEX.test(licensePlate);
 }
 
-export function validateDate(date: string): boolean {
+function validateDate(date: string): boolean {
   return moment(`${date}`, DATE_FORMAT, true).isValid();
 }
 
 
-export function validateTime(time: string): boolean {
+function validateTime(time: string): boolean {
   return TIME_REGEX.test(time);
 }
 
-export function timeBetween(time: string,
+function timeBetween(time: string,
                             inclusiveStartTime: string,
                             inclusiveEndTime: string): {error?: string} | boolean {
   try {
@@ -29,3 +29,14 @@ export function timeBetween(time: string,
     return {error: e};
   }
 }
+
+
+export const DateValidators = {
+  validateTime,
+  validateDate,
+  timeBetween
+};
+
+export const LicensePlateValidators = {
+  validateLicensePlate
+};
