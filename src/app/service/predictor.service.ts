@@ -1,35 +1,52 @@
 import { Injectable } from '@angular/core';
-import {WeekdayLicenseService} from "./weekday-license.service";
-import {ILicensePlatePredict} from "../model/ILicensePlatePredict";
-import {Utils} from "../utilities/util";
-import {Weekday} from "../enum/Weekday";
+import {PredictDataService} from './predict-data.service';
+import {LicensePlatePredict} from '../model/LicensePlatePredict';
+import {Utils} from '../utilities/util';
+import {timeBetween} from '../utilities/validators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PredictorService {
 
-  constructor(private readonly _weekdayLicenseService: WeekdayLicenseService) { }
+  constructor(private readonly predictDataService: PredictDataService) { }
 
-  predict(licensePlatePredict: ILicensePlatePredict): Promise<boolean> {
+  predict(licensePlatePredict: LicensePlatePredict): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
+      const predictDataSubscriber = this.predictDataService.getPredictData();
 
-      const weekdayLicensesSubscriber = this._weekdayLicenseService.getWeekdayLicenses();
+      predictDataSubscriber.subscribe(
+        predictData => {
+          const weekdayLicenses = predictData.weekdayLicenses;
+          const forbiddenSlots = predictData.forbiddenSlots;
 
-      weekdayLicensesSubscriber.subscribe(
-        weekdayLicenses => {
-          if (!!!weekdayLicenses.length) {
-            return reject(`Couldn't get enough data for validation!`);
+          if (!forbiddenSlots && !weekdayLicenses) {
+            return reject(`Error: couldn't get data for validation`);
           }
 
-          let weekday: Weekday = Utils.getWeekday(licensePlatePredict.date);
-          let check = weekdayLicenses.filter(wl => wl.weekday === weekday );
+          const weekdayToCheck = Utils.getWeekday(licensePlatePredict.date);
+          const lastDigit = licensePlatePredict.licensePlate.slice(-1);
 
-          if (check) {
+          const checkSlots = weekdayLicenses
+            .filter(w => w.weekday === weekdayToCheck && w.lastLicenseDigit === Number(lastDigit))
+            .length > 0;
 
+          if (checkSlots) {
+            const forbidden = forbiddenSlots
+              .reduce((ac, cv) => {
+                  const comparison = timeBetween(licensePlatePredict.time, cv.startTime, cv.endTime);
+                  if (typeof comparison === 'object') {
+                    return ac || true;
+                  }
+                  if (typeof comparison === 'boolean') {
+                    return ac || comparison;
+                  }
+
+              }, false);
+            return resolve(forbidden);
           }
 
-          resolve(true);
+          return resolve(false);
         },
         error => {
           reject(`Error: ${error}`);
