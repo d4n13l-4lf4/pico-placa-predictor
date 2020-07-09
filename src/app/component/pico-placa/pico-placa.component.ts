@@ -47,7 +47,7 @@ export class PicoPlacaComponent implements OnInit {
 
       const promise = this.predictorService.predict(licenseInput);
       promise.then(fb => this.forbiddenLicense = fb);
-      promise.catch(err => this.error = true);
+      promise.catch(_ => this.error = true);
       promise.finally(() => this.loading = false);
     }
   }
