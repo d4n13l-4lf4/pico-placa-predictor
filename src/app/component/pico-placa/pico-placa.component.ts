@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ILicensePlatePredict} from "../../model/ILicensePlatePredict";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CustomValidator} from "../../validator/custom-validators";
-import {PredictorService} from "../../service/predictor.service";
+import {LicensePlatePredict} from '../../model/LicensePlatePredict';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CustomValidator} from '../../validator/custom-validators';
+import {PredictorService} from '../../service/predictor.service';
 
 @Component({
   selector: 'app-pico-placa',
@@ -11,59 +11,42 @@ import {PredictorService} from "../../service/predictor.service";
 })
 export class PicoPlacaComponent implements OnInit {
 
-  licensePlateInput: ILicensePlatePredict;
+  licensePlateInput: LicensePlatePredict;
   forbiddenLicense: boolean;
   predictForm: FormGroup;
+  error: boolean;
+  loading: boolean;
 
-  constructor(private _fb: FormBuilder,
-              private _predictService: PredictorService) {
+  constructor(private fb: FormBuilder,
+              private predictorService: PredictorService) {
     this.licensePlateInput = {
       licensePlate: '',
       date: '',
       time: ''
     };
-    this.predictForm = this._fb.group({
-      'licensePlate': this._fb.control(
-        this.licensePlateInput.licensePlate,
-        [
-          Validators.required,
-          CustomValidator.licensePlateValidator()
-        ]),
-      'date': this._fb.control(
-        this.licensePlateInput.date,
-        [
-          Validators.required,
-          CustomValidator.dateValidator()
-        ]),
-      'time': this._fb.control(
-        this.licensePlateInput.time,
-        [
-          Validators.required,
-          CustomValidator.timeValidator()
-        ])
-    });
+    this.error = false;
+    this.loading = false;
   }
 
   ngOnInit() {
+    this.createPredictForm();
   }
 
   predictPicoPlaca() {
-    this.forbiddenLicense = true;
-
-    let valid = this.predictForm.valid;
+    const valid = this.predictForm.valid;
 
     if (valid) {
-
-      let licenseInput: ILicensePlatePredict = {
-        licensePlate: this.predictForm.get("licensePlate").value,
-        date: this.predictForm.get("date").value,
-        time: this.predictForm.get("time").value,
+      const licenseInput: LicensePlatePredict = {
+        licensePlate: this.predictForm.get('licensePlate').value,
+        date: this.predictForm.get('date').value,
+        time: this.predictForm.get('time').value,
       };
 
-      console.log(licenseInput);
-
-      const promise = this._predictService.predict(licenseInput)
+      this.loading = true;
+      const promise = this.predictorService.predict(licenseInput);
       promise.then(fb => this.forbiddenLicense = fb);
+      promise.catch(err => this.error = true);
+      promise.finally(() => this.loading = false);
     }
   }
 
@@ -72,10 +55,33 @@ export class PicoPlacaComponent implements OnInit {
     this.forbiddenLicense = undefined;
   }
 
+  createPredictForm() {
+    this.predictForm = this.fb.group({
+      licensePlate: this.fb.control(
+        this.licensePlateInput.licensePlate,
+        [
+          Validators.required,
+          CustomValidator.licensePlateValidator()
+        ]),
+      date: this.fb.control(
+        this.licensePlateInput.date,
+        [
+          Validators.required,
+          CustomValidator.dateValidator()
+        ]),
+      time: this.fb.control(
+        this.licensePlateInput.time,
+        [
+          Validators.required,
+          CustomValidator.timeValidator()
+        ])
+    });
+  }
+
   get licensePlate() { return this.predictForm.get('licensePlate'); }
 
-  get date() { return this.predictForm.get("date"); }
+  get date() { return this.predictForm.get('date'); }
 
-  get time() { return this.predictForm.get("time"); }
+  get time() { return this.predictForm.get('time'); }
 
 }
