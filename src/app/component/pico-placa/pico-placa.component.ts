@@ -36,13 +36,15 @@ export class PicoPlacaComponent implements OnInit {
     const valid = this.predictForm.valid;
 
     if (valid) {
+      this.loading = true;
+      this.forbiddenLicense = undefined;
+
       const licenseInput: LicensePlatePredict = {
         licensePlate: this.predictForm.get('licensePlate').value,
         date: this.predictForm.get('date').value,
         time: this.predictForm.get('time').value,
       };
 
-      this.loading = true;
       const promise = this.predictorService.predict(licenseInput);
       promise.then(fb => this.forbiddenLicense = fb);
       promise.catch(err => this.error = true);
