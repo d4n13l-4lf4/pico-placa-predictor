@@ -14,16 +14,16 @@ export class PredictDataService {
   constructor() {
     this.PREDICT_DATA = {
       weekdayLicenses: [
-        {weekday: Weekday.MONDAY, lastLicenseDigit: 1},
-        {weekday: Weekday.MONDAY, lastLicenseDigit: 2},
-        {weekday: Weekday.TUESDAY, lastLicenseDigit: 3},
-        {weekday: Weekday.TUESDAY, lastLicenseDigit: 4},
-        {weekday: Weekday.WEDNESDAY, lastLicenseDigit: 5},
-        {weekday: Weekday.WEDNESDAY, lastLicenseDigit: 6},
-        {weekday: Weekday.THURSDAY, lastLicenseDigit: 7},
-        {weekday: Weekday.THURSDAY, lastLicenseDigit: 8},
-        {weekday: Weekday.FRIDAY, lastLicenseDigit: 9},
-        {weekday: Weekday.FRIDAY, lastLicenseDigit: 0}
+        {weekday: Weekday.Monday, lastLicenseDigit: 1},
+        {weekday: Weekday.Monday, lastLicenseDigit: 2},
+        {weekday: Weekday.Tuesday, lastLicenseDigit: 3},
+        {weekday: Weekday.Tuesday, lastLicenseDigit: 4},
+        {weekday: Weekday.Wednesday, lastLicenseDigit: 5},
+        {weekday: Weekday.Wednesday, lastLicenseDigit: 6},
+        {weekday: Weekday.Thursday, lastLicenseDigit: 7},
+        {weekday: Weekday.Thursday, lastLicenseDigit: 8},
+        {weekday: Weekday.Friday, lastLicenseDigit: 9},
+        {weekday: Weekday.Friday, lastLicenseDigit: 0}
       ],
       forbiddenSlots: [
         {startTime: '07:00', endTime: '09:30'},
