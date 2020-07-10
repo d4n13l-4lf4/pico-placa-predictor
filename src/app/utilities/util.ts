@@ -17,6 +17,10 @@ function getWeekday(date: string): {error?: string} | Weekday {
         return Weekday.Thursday;
       case Weekday.Friday:
         return Weekday.Friday;
+      case Weekday.Saturday:
+        return Weekday.Saturday;
+      case Weekday.Sunday:
+        return Weekday.Sunday;
       default:
         return {error: `Couldn't match a valid Weekday`};
     }
