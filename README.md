@@ -1,5 +1,7 @@
 # PicoPlacaPredictor
 
+[![Build Status](https://travis-ci.org/d4n13l-4lf4/pico-placa-predictor.svg?branch=master)](https://travis-ci.org/d4n13l-4lf4/pico-placa-predictor)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
 
 ## Development server
